@@ -24,3 +24,10 @@ int setup_socket(int sockfd, int *len, int port, ADDR)
     }
     return 0;
 }
+
+void setup_client_socket(int port, ADDR, const char *ip)
+{
+    address->sin_family = AF_INET;
+    address->sin_port = htons(port);
+    address->sin_addr.s_addr = inet_addr(ip);
+}

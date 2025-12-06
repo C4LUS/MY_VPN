@@ -48,6 +48,8 @@ void handle_client_read(poll_t *p, nfds_t i)
 
 void server_loop(server_t *server, poll_t *p, ADDR)
 {
+    char buff[80];
+    int n = 0;
     while (true) {
         p->ready = poll(p->pfds, p->nfds, 1000);
         if (p->ready < 0) {
@@ -62,7 +64,11 @@ void server_loop(server_t *server, poll_t *p, ADDR)
         }
         for (nfds_t i = 1; i < p->num_open_fds; ++i) {
             if (p->pfds[i].revents & POLLIN)
-                handle_client_read(p, i);
+                // handle_client_read(p, i);
+                if (func(p->pfds[i].fd, buff, sizeof(buff)) < 0) {
+                    dprintf(0, "client: %d disconnected.\n", p->pfds[i].fd);
+                    remove_fd_from_poll(p, i);
+                }
         }
     }
 }

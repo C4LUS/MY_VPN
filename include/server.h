@@ -40,5 +40,7 @@ void handle_client_read(poll_t *p, nfds_t i);
 server_t *init_server_struct(void);
 poll_t *init_poll_struct(void);
 int create_socket(void);
+void setup_client_socket(int port, ADDR, const char *ip);
 
-#endif  
+int func(int connfd, char *buff, size_t buff_size);
+#endif 
